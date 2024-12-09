@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forms</title>
+</head>
+<body>
+    <h1 style="text-align: center;">Forms Demo</h1>
+    <hr>
+
+    <!-- action specifies endpoint where data of the form is submitted and method declares type (post) -->
+    <form>
+
+        <!-- id attribute - identifier for an inputs -->
+        <!-- name attribute - specify name for an element in a form-->
+        
+        <label for="name">Your Name:</label>
+            <input type="text" id="name" name="name" placeholder="Enter Your Name" required minlength="5"> 
+            <br>
+
+        <label for="password">Enter Password:</label>
+            <input type="password" id="password" name="password"> <br>
+        
+        <label for="age">Enter Age:</label>
+            <input type="number" id="age" name="age">
+             <br>
+      
+        <label for="gender">Choose Your Gender</label>
+            <input type="radio" name="gender" value="female">Female
+            <input type="radio" name="gender" value="male">Male 
+            <br>
+            
+        <label for="hobby">Choose Your Hobbies</label>
+            <input type="checkbox" name="hobby" value="eat">Eat
+            <input type="checkbox" name="hobby" value="sleep" checked>Sleep
+            <input type="checkbox" name="hobby" value="repeat">Repeat
+            <br>     
+            
+        <label for="food">Food</label>
+        <select name="food" multiple>
+            <option value="Italian">Italian</option>
+            <option value="French">French</option>
+            <option value="Indian">Indian</option>
+        </select>
+        <br>
+
+        <label>Some Comments</label>
+        <textarea row="5" cols="30"></textarea>
+        <input type="submit" value="Submit">
+
+    </form>
+
+
+    <hr>
+    <a href="welcome.html">Go back to Welcome Page</a>
+</body>
+</html>
