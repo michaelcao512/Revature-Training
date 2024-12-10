@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selector Demo</title>
+    <style>
+        /* universal selector */
+        *{
+            color: red;
+        }
+
+        /* element selector */
+        /* grouping selectors separating by comma */
+        p,h2{
+            color: green;
+        }
+
+        /* id selector */
+        #para1{
+            color: blue;
+        }
+
+        /* class selector */
+        .class1{
+            background-color: yellow;
+        }
+
+        /* attribute selector */
+        [att1="a1"]{
+            font-size: 30px;
+        }
+
+        /* child selector */
+        div h3{
+            color: purple;
+        }
+
+        /* pseudo selector */
+        p:hover{
+            background-color: lightblue;
+        }
+
+
+    </style>
+</head>
+<body>
+    <h1>Selector Demo</h1>
+    <h2>Second Heading</h2>
+
+    <hr>
+    <p id="para1" >paragraph 1</p>
+    <p id="para2" class="class1">paragraph 2</p>
+    <p class="class1">paragraph 3</p>
+    <p att1="a1">paragraph 4</p>
+
+    <hr>
+    <div>
+        <h3>H3 inside a div</h3>
+    </div>
+
+</body>
+</html>
