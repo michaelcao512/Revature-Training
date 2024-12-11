@@ -56,3 +56,48 @@ assignment
         - delete an item from the list
         - mark an item as complete
         - should be able to edit an item (optional)
+
+
+Web Tech
+    Request and Response (HTTP)
+    1. client sends a request to a server
+    2. server receives the request
+    3. server processes request
+    4. server returns a response to client
+    5. cleint receive response and displays it
+
+    status codes
+        1xx - information
+        2xx - success
+        3xx - redirection
+        4xx - client error
+        5xx - server error
+
+asynchronous programming
+    waiting for a response
+    using callbacks
+    
+
+Promise
+    handles asynchronous programming
+
+    states
+        pending
+        resolved
+        rejected
+
+    var Promise = new Promise( ... )
+        .then( () => { dosomething when successful})
+        .then( () => { dosomething when rejected})
+
+        .catch( () => { optional error handling})
+
+Making Asynchronous HTTP requests/response in JS
+    1. AJAX
+    2. Fetch API - returns Promise
+
+
+async - async execution
+await - wait for the result of the execution of the method
+async and await wrap the promises, async and await results in a promise
+    async function need await method
