@@ -48,14 +48,32 @@ body {
 }
 
 .author-information li {
+    color: darkslategrey;
     padding: 5px;
 }
 
-.email {
+.author-information li.email {
     color: lightseagreen;
 }
 
-.address {
+.author-information li.address {
     font-style: italic;
-    color: darkslategrey;
+}
+
+.author-information li.phone {
+    color: darkorange;
+}
+
+.author-information li.website {
+    color: darkorchid;
+}
+
+.author-information li.company {
+    color: darkolivegreen;
+}
+
+
+.author-information li:hover {
+    background-color: lightgoldenrodyellow;
+    transition: background-color 0.3s ease;
 }

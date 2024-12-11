@@ -29,7 +29,25 @@ function getAuthorsData(){
                     liAddress.className = 'address'
                     liAddress.innerHTML = author.address.street + ', ' + author.address.city + ', ' + author.address.zipcode
                    
+                    const liPhone = document.createElement('li')
+                    liPhone.className = 'phone'
+                    liPhone.innerHTML = author.phone
+
+                    const liWebsite = document.createElement('li')
+                    liWebsite.className = 'website'
+                    liWebsite.innerHTML = author.website
+
+                    const liCompany = document.createElement('li')
+                    liCompany.className = 'company'
+                    liCompany.innerHTML = author.company.name
+
+
+
+
                     ulAuthorInformation.appendChild(liEmail)
+                    ulAuthorInformation.appendChild(liPhone)
+                    ulAuthorInformation.appendChild(liWebsite)
+                    ulAuthorInformation.appendChild(liCompany)
                     ulAuthorInformation.appendChild(liAddress)
 
                     authorLi.appendChild(ulAuthorInformation)
