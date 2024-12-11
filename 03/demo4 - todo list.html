@@ -27,7 +27,15 @@
                 li.style.color ="green";
             });
 
-            // add a button to edit item (change text buttons remain)
+            // add a button to mark as incomplete
+            var incompleteButton = document.createElement("button");
+            incompleteButton.innerHTML = "Mark as Incomplete";
+            incompleteButton.addEventListener("click", function() {
+                li.style.textDecoration = "none";
+                li.style.color ="black";
+            });
+
+            // add a button to edit item
             var editButton = document.createElement("button");
             editButton.innerHTML = "Edit";
             editButton.onclick = function() {
@@ -35,6 +43,7 @@
                 li.innerHTML = newText;
                 li.appendChild(removeButton);
                 li.appendChild(completeButton);
+                li.appendChild(incompleteButton);
                 li.appendChild(editButton);
 
             }
@@ -43,6 +52,7 @@
 
             li.appendChild(removeButton);
             li.appendChild(completeButton);
+            li.appendChild(incompleteButton);
             li.appendChild(editButton);
 
             ul.appendChild(li);
