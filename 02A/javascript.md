@@ -67,4 +67,39 @@ javascript data types
     
         truthy is anything else that has value
 
-    
+    functions  
+        function name(parameter1, ...){
+
+        }
+
+        functions can bad assigned and utilized
+        var add = function sum(val1, val2) { return val1 +val2; }
+        add(1,2)
+
+        anonymous function    
+            defines function w/o name and must be assigned to variable 
+            var sayHello = function (firstName) { alert("Hello " + firstname); }
+
+        callback function
+            passing a function as an argument (higher order functions)
+            function name (parameter1,..., callback) {
+                ...
+                callback();
+            } 
+
+        closures
+            function that remembers and accesses the variables and arguments of its outer function even after function return
+            enclosed in {}
+        
+        arrow function
+            let func = (arg1, ...) => expression;
+            var hello = () => "Hello World";
+            hello();
+
+            multiline
+
+    backtick (``)
+        allows dynamic code to allow variables inside of strings
+        function sayHello(name) {
+            alert(`Hello ${name}`);
+        }

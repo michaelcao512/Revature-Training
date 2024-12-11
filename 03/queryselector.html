@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Query Selector</title>
+    <script>        
+        function handleClick(){
+            // query selector p inside div
+            var x = document.querySelector("div p");
+            x.style.backgroundColor = "red";
+        }
+    </script>
+</head>
+<body>
+    <h1>This is Query Selector</h1>
+    <p>this is first paragraph</p>
+    <p>this is second paragraph</p>
+    <div>
+        <h4>Heading for 3rd paragraph</h1>
+        <p>this is third paragraph</p>
+    </div>
+    <button onclick="handleClick()">Click Me</button>
+</body>
+</html>
