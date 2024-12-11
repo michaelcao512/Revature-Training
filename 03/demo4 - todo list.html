@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List</title>
+    <script>
+        function add() {
+            var text = document.getElementById("text1").value;
+            var li = document.createElement("li");
+            li.innerHTML = text;
+            document.getElementById("list").appendChild(li);
+        }
+    </script>
+</head>
+<body>
+    <h1>To Do List</h1>
+    <input type="text" id="text1">
+    <button onclick="add()">Add to List</button>
+
+    <ul id="list">
+    </ul>
+</body>
+</html>
