@@ -28,4 +28,31 @@ DOM -- Document Object Model
             get the element of where to insert and append after it
                 document.getElementById("id").append(newElement)
 
-                
+action -> event occurs -> event handler or event listener (demo5)   
+    .addEventListener("click", onClickHandler);
+
+    .removeEventListener
+
+
+Bubbling
+    when elements are nested, events are proprogated (demo 6)
+    when you click the para, both the div click event and paragraph click event happen
+    from innermost to outermost event propogation
+
+
+
+Capturing
+    outermost to innermost or event propogation
+    by default capturing is set to false
+    3rd parameter of eventlistener is boolean setting capturing
+    .addEventListener("click", onClickHandler, true)    
+        capturing enabled    
+
+
+
+assignment
+    create a to-do list application in javascript
+        - add an item to the list
+        - delete an item from the list
+        - mark an item as complete
+        - should be able to edit an item (optional)

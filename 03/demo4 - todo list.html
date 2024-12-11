@@ -8,9 +8,47 @@
         function add() {
             var text = document.getElementById("text1").value;
             var li = document.createElement("li");
+
+            // add text to item
             li.innerHTML = text;
-            document.getElementById("list").appendChild(li);
+
+            // add a remove button to item
+            var removeButton = document.createElement("button");
+            removeButton.innerHTML = "Remove";
+            removeButton.addEventListener("click", function() {
+                li.remove();
+            });
+
+            // add a button to mark as complete
+            var completeButton = document.createElement("button");
+            completeButton.innerHTML = "Mark as Complete";
+            completeButton.addEventListener("click", function() {
+                li.style.textDecoration = "line-through";
+                li.style.color ="green";
+            });
+
+            // add a button to edit item (change text buttons remain)
+            var editButton = document.createElement("button");
+            editButton.innerHTML = "Edit";
+            editButton.onclick = function() {
+                var newText = prompt("Enter new text");
+                li.innerHTML = newText;
+                li.appendChild(removeButton);
+                li.appendChild(completeButton);
+                li.appendChild(editButton);
+
+            }
+
+            const ul = document.getElementById("list");
+
+            li.appendChild(removeButton);
+            li.appendChild(completeButton);
+            li.appendChild(editButton);
+
+            ul.appendChild(li);
+
         }
+
     </script>
 </head>
 <body>
