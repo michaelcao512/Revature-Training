@@ -32,6 +32,7 @@ public class Account {
     @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
     private UserInfo userInfo;
 
+
     @PreUpdate
     public void onUpdate() {
         this.dateUpdated = LocalDateTime.now();

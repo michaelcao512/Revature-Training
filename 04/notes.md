@@ -196,3 +196,21 @@ advanced types
 
         or
         let b = a as typeB
+
+
+generics
+    provide compile time safety
+
+    List <String> name = new ArrayList();
+    specify array list as list of Strings using generics <>
+
+
+
+Imports with {} and without {}
+    you use without {} when importing a package that is not exported as a default 
+
+
+decorators  
+    used to as special behaviors to a class or members of a class
+    @RestController
+    Class, Method, Property, Parameter decorators
