@@ -1,4 +1,4 @@
-package com.example.socialmedia;
+package dev.michaelcao512.socialmedia;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
