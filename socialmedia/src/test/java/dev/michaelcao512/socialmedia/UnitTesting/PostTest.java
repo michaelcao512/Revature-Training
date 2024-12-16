@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -16,6 +17,7 @@ import org.mockito.MockitoAnnotations;
 
 import dev.michaelcao512.socialmedia.Entities.Account;
 import dev.michaelcao512.socialmedia.Entities.Post;
+import dev.michaelcao512.socialmedia.Repositories.AccountRepository;
 import dev.michaelcao512.socialmedia.Repositories.PostRepository;
 import dev.michaelcao512.socialmedia.Services.PostService;
 
@@ -23,6 +25,8 @@ public class PostTest {
 
     @Mock
     private PostRepository postRepository;
+    @Mock
+    private AccountRepository accountRepository;
 
     @InjectMocks
     private PostService postService;
@@ -130,14 +134,21 @@ public class PostTest {
     }
 
     @Test
-    public void testGetPostsByAccount() {
+    public void testGetPostsByAccountId() {
+        Post post = new Post();
+        post.setPostId(1L);
+        post.setAccount(account);
+        post.setContent("Test Post Content");
 
-        when(postRepository.existsById(account.getAccountId())).thenReturn(true);
-        postService.getPostsByAccount(account);
+        when(accountRepository.findById(account.getAccountId())).thenReturn(Optional.of(account));
+        when(postRepository.findByAccount(account)).thenReturn(List.of(post));
+        when(postRepository.existsByAccount(account)).thenReturn(true);
+        List<Post> retrievedPosts = postService.getPostsByAccountId(account.getAccountId());
+
+        assertNotNull(retrievedPosts);
+        assert (retrievedPosts.get(0).getPostId() == 1L);
+        assert (retrievedPosts.get(0).getContent().equals("Test Post Content"));
+        verify(accountRepository).findById(account.getAccountId());
         verify(postRepository).findByAccount(account);
-
-        // throws exception when account does not exist
-        assertThrows(IllegalArgumentException.class, () -> postService.getPostsByAccount(null),
-                "Account cannot be null");
     }
 }

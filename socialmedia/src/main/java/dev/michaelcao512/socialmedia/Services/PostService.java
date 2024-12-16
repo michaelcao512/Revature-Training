@@ -7,14 +7,17 @@ import org.springframework.stereotype.Service;
 
 import dev.michaelcao512.socialmedia.Entities.Account;
 import dev.michaelcao512.socialmedia.Entities.Post;
+import dev.michaelcao512.socialmedia.Repositories.AccountRepository;
 import dev.michaelcao512.socialmedia.Repositories.PostRepository;
 
 @Service
 public class PostService {
     private final PostRepository postRepository;
+    private final AccountRepository accountRepository;
 
-    public PostService(PostRepository postRepository) {
+    public PostService(PostRepository postRepository, AccountRepository accountRepository) {
         this.postRepository = postRepository;
+        this.accountRepository = accountRepository;
     }
 
     public Post createPost(Post post) {
@@ -58,14 +61,15 @@ public class PostService {
         return postRepository.findAll();
     }
 
-    public List<Post> getPostsByAccount(Account account) {
-        if (account == null) {
+    public List<Post> getPostsByAccountId(Long accountId) {
+        Optional<Account> account = accountRepository.findById(accountId);
+        if (account.isEmpty()) {
             throw new IllegalArgumentException("Account cannot be null");
         }
-        if (!postRepository.existsById(account.getAccountId())) {
-            throw new IllegalArgumentException("Account does not exist");
+        if (!postRepository.existsByAccount(account.get())) {
+            return List.of();
         }
-        return postRepository.findByAccount(account);
+        return postRepository.findByAccount(account.get());
 
     }
 }
