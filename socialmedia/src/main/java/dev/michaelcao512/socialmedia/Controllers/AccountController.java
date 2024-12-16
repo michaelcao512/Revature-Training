@@ -4,12 +4,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.michaelcao512.socialmedia.Entities.Account;
+import dev.michaelcao512.socialmedia.Entities.UserInfo;
 import dev.michaelcao512.socialmedia.Exceptions.InvalidCredentialsException;
 import dev.michaelcao512.socialmedia.Services.AccountService;
+import dev.michaelcao512.socialmedia.Services.UserInfoService;
 import dev.michaelcao512.socialmedia.dto.RegistrationRequest;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -17,10 +20,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/account")
 public class AccountController {
     private final AccountService accountService;
+    private final UserInfoService userInfoService;
 
-    public AccountController(AccountService accountService) {
+    public AccountController(AccountService accountService, UserInfoService userInfoService) {
         this.accountService = accountService;
+        this.userInfoService = userInfoService;
     }
+
 
     // registering a new account
     // RegistrationRequest object in body
@@ -50,6 +56,16 @@ public class AccountController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         } catch (InvalidCredentialsException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PostMapping("/updateInfo")
+    public ResponseEntity<UserInfo> updateUserInfo(@RequestBody UserInfo userInfo) {
+        try {
+            UserInfo newUserInfo = userInfoService.updateUserInfo(userInfo);
+            return ResponseEntity.ok(newUserInfo);
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         }
     }
