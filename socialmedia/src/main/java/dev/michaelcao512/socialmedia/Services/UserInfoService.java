@@ -1,5 +1,7 @@
 package dev.michaelcao512.socialmedia.Services;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import dev.michaelcao512.socialmedia.Entities.UserInfo;
@@ -29,6 +31,14 @@ public class UserInfoService {
         }
         userInfoRepository.save(existingUserInfo);
         return existingUserInfo;
+    }
+
+    public UserInfo getUserInfo(Long accountId) {
+        Optional<UserInfo> userInfo = userInfoRepository.findByAccountId(accountId);
+        if (userInfo.isEmpty()) {
+            throw new IllegalArgumentException("User info not found");
+        }
+        return userInfo.get();
     }
 
 }

@@ -43,7 +43,7 @@ public class UserInfoTest {
         updatedInfo.setFirstName("NewFirstName");
 
         when(userInfoRepository.findById(1L)).thenReturn(Optional.of(existingInfo));
-        when(userInfoRepository.save(existingInfo)).thenReturn(existingInfo);
+        when(userInfoRepository.save(existingInfo)).thenAnswer(i -> i.getArguments()[0]);
 
         UserInfo result = userInfoService.updateUserInfo(updatedInfo);
 
@@ -68,7 +68,7 @@ public class UserInfoTest {
         updatedInfo.setLastName("NewLastName");
 
         when(userInfoRepository.findById(1L)).thenReturn(Optional.of(existingInfo));
-        when(userInfoRepository.save(existingInfo)).thenReturn(existingInfo);
+        when(userInfoRepository.save(existingInfo)).thenAnswer(i -> i.getArguments()[0]);
 
         UserInfo result = userInfoService.updateUserInfo(updatedInfo);
 
@@ -93,7 +93,7 @@ public class UserInfoTest {
         updatedInfo.setGender("NewGender");
 
         when(userInfoRepository.findById(1L)).thenReturn(Optional.of(existingInfo));
-        when(userInfoRepository.save(existingInfo)).thenReturn(existingInfo);
+        when(userInfoRepository.save(existingInfo)).thenAnswer(i -> i.getArguments()[0]);
 
         UserInfo result = userInfoService.updateUserInfo(updatedInfo);
 
@@ -103,6 +103,25 @@ public class UserInfoTest {
 
         verify(userInfoRepository, times(1)).findById(1L);
         verify(userInfoRepository, times(1)).save(existingInfo);
+    }
+
+    @Test
+    public void getUserInfo() {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUserInfoId(1L);
+        userInfo.setFirstName("FirstName");
+        userInfo.setLastName("LastName");
+        userInfo.setGender("Male");
+
+        when(userInfoRepository.findByAccountId(1L)).thenReturn(Optional.of(userInfo));
+
+        UserInfo result = userInfoService.getUserInfo(1L);
+
+        assertEquals("FirstName", result.getFirstName());
+        assertEquals("LastName", result.getLastName());
+        assertEquals("Male", result.getGender());
+
+        verify(userInfoRepository, times(1)).findByAccountId(1L);
     }
 
 }

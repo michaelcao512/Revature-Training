@@ -25,7 +25,4 @@ public class Friendship {
     private Account friend;
 
 
-
-
-
 }

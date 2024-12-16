@@ -6,11 +6,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PreUpdate;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -32,6 +34,16 @@ public class Account {
 
     @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
     private UserInfo userInfo;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    private List<Friendship> following;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    private List<Friendship> followers;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    private List<Post> posts;
+
 
     @PreUpdate
     public void onUpdate() {
