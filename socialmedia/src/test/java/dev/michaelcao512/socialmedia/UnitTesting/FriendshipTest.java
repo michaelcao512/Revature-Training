@@ -4,10 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,13 +42,14 @@ public class FriendshipTest {
 
     @Test
     public void testAddFriend_Success() {
-        Account account = new Account();
-        account.setAccountId(1L);
-        Account friend = new Account();
-        friend.setAccountId(2L);
+
+        Account account = mock(Account.class);
+        Account friend = mock(Account.class);
 
         when(friendshipRepository.existsByAccountAndFriend(account, friend)).thenReturn(false);
         when(friendshipRepository.save(any(Friendship.class))).thenAnswer(i -> i.getArguments()[0]);
+        when(account.getFollowing()).thenReturn(new ArrayList<>());
+        when(friend.getFollowers()).thenReturn(new ArrayList<>());
 
         FriendshipRequest friendshipRequest = new FriendshipRequest();
         friendshipRequest.setAccount(account);
@@ -63,10 +66,8 @@ public class FriendshipTest {
 
     @Test
     public void testAddFriend_AlreadyExists() {
-        Account account = new Account();
-        account.setAccountId(1L);
-        Account friend = new Account();
-        friend.setAccountId(2L);
+        Account account = mock(Account.class);
+        Account friend = mock(Account.class);
 
         when(friendshipRepository.existsByAccountAndFriend(account, friend)).thenReturn(true);
 
@@ -81,8 +82,7 @@ public class FriendshipTest {
 
     @Test
     public void testAddFriend_NullAccount() {
-        Account friend = new Account();
-        friend.setAccountId(2L);
+        Account friend = mock(Account.class);
 
         FriendshipRequest friendshipRequest = new FriendshipRequest();
         friendshipRequest.setFriend(friend);
@@ -94,8 +94,7 @@ public class FriendshipTest {
 
     @Test
     public void testAddFriend_NullFriend() {
-        Account account = new Account();
-        account.setAccountId(1L);
+        Account account = mock(Account.class);
 
         FriendshipRequest friendshipRequest = new FriendshipRequest();
         friendshipRequest.setAccount(account);
@@ -107,8 +106,7 @@ public class FriendshipTest {
 
     @Test
     public void testAddFriend_Self() {
-        Account account = new Account();
-        account.setAccountId(1L);
+        Account account = mock(Account.class);
 
         FriendshipRequest friendshipRequest = new FriendshipRequest();
         friendshipRequest.setAccount(account);
@@ -120,10 +118,8 @@ public class FriendshipTest {
 
     @Test
     public void testRemoveFriend_Success() {
-        Account account = new Account();
-        account.setAccountId(1L);
-        Account friend = new Account();
-        friend.setAccountId(2L);
+        Account account = mock(Account.class);
+        Account friend = mock(Account.class);
 
         Friendship friendship = new Friendship();
         friendship.setFriendshipId(1L);
@@ -143,8 +139,7 @@ public class FriendshipTest {
 
     @Test
     public void testRemoveFriend_NullAccount() {
-        Account friend = new Account();
-        friend.setAccountId(2L);
+        Account friend = mock(Account.class);
 
         when(friendshipRepository.findByAccountAndFriend(null, friend)).thenReturn(Optional.empty());
 
@@ -158,8 +153,7 @@ public class FriendshipTest {
 
     @Test
     public void testRemoveFriend_NullFriend() {
-        Account account = new Account();
-        account.setAccountId(1L);
+        Account account = mock(Account.class);
 
         FriendshipRequest friendshipRequest = new FriendshipRequest();
         friendshipRequest.setAccount(account);
@@ -173,10 +167,8 @@ public class FriendshipTest {
 
     @Test
     public void testRemoveFriend_FriendshipNotFound() {
-        Account account = new Account();
-        account.setAccountId(1L);
-        Account friend = new Account();
-        friend.setAccountId(2L);
+        Account account = mock(Account.class);
+        Account friend = mock(Account.class);
 
         FriendshipRequest friendshipRequest = new FriendshipRequest();
         friendshipRequest.setAccount(account);
@@ -191,8 +183,7 @@ public class FriendshipTest {
 
     @Test
     public void testGetAllFriends() {
-        Account account = new Account();
-        account.setAccountId(1L);
+        Account account = mock(Account.class);
 
         Friendship friendship1 = new Friendship();
         friendship1.setFriendshipId(1L);

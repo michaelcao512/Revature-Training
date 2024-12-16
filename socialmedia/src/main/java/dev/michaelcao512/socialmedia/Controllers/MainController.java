@@ -4,11 +4,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.michaelcao512.socialmedia.Entities.Account;
+import dev.michaelcao512.socialmedia.Entities.Comment;
 import dev.michaelcao512.socialmedia.Entities.Friendship;
 import dev.michaelcao512.socialmedia.Entities.Post;
 import dev.michaelcao512.socialmedia.Entities.UserInfo;
 import dev.michaelcao512.socialmedia.Exceptions.InvalidCredentialsException;
 import dev.michaelcao512.socialmedia.Services.AccountService;
+import dev.michaelcao512.socialmedia.Services.CommentService;
 import dev.michaelcao512.socialmedia.Services.FriendshipService;
 import dev.michaelcao512.socialmedia.Services.PostService;
 import dev.michaelcao512.socialmedia.Services.UserInfoService;
@@ -32,13 +34,15 @@ public class MainController {
     private final UserInfoService userInfoService;
     private final FriendshipService FriendshipService;
     private final PostService postService;
+    private final CommentService commentService;
 
     public MainController(AccountService accountService, UserInfoService userInfoService,
-            FriendshipService FriendshipService, PostService postService) {
+            FriendshipService FriendshipService, PostService postService, CommentService commentService) {
         this.accountService = accountService;
         this.userInfoService = userInfoService;
         this.FriendshipService = FriendshipService;
         this.postService = postService;
+        this.commentService = commentService;
     }
 
     /**
@@ -280,6 +284,96 @@ public class MainController {
         try {
             Post post = postService.getPostById(postId);
             return ResponseEntity.ok(post);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    /**
+     * Retrieves all comments for a given post.
+     * 
+     * @param postId the id of the post to retrieve comments for
+     * @return a list of comments associated with the given post id
+     * @throws IllegalArgumentException if the post does not exist
+     */
+
+    @GetMapping("/posts/{postId}/comments")
+    public ResponseEntity<List<Comment>> getCommentsByPostId(@PathVariable Long postId) {
+        try {
+            List<Comment> comments = commentService.getCommentsByPostId(postId);
+            return ResponseEntity.ok(comments);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    /**
+     * Retrieves a comment with the given comment id.
+     * 
+     * @param commentId the id of the comment to be retrieved
+     * @return the comment with the given comment id
+     * @throws IllegalArgumentException if the comment does not exist
+     */
+    @GetMapping("/comments/{commentId}")
+    public ResponseEntity<Comment> getCommentById(@PathVariable Long commentId) {
+        try {
+            Comment comment = commentService.getCommentById(commentId);
+            return ResponseEntity.ok(comment);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    /**
+     * Creates a new comment for the given post and account.
+     * 
+     * The object in the request body should contain the post ID, account ID, and
+     * content of the comment.
+     * 
+     * @param comment the comment to be created
+     * @return the created comment if the creation is successful
+     * @throws IllegalArgumentException if the comment is null, the post does not
+     *                                  exist, or the account does not exist
+     */
+    @PostMapping("/comments/create")
+    public ResponseEntity<Comment> createComment(@RequestBody Comment comment) {
+        try {
+            Comment newComment = commentService.createComment(comment);
+            return ResponseEntity.ok(newComment);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    /**
+     * Updates a comment with the given ID.
+     * 
+     * @param comment the comment to be updated
+     * @return the updated comment if the update is successful
+     * @throws IllegalArgumentException if the comment is null or does not exist
+     */
+    @PostMapping("/comments/update")
+    public ResponseEntity<Comment> updateComment(@RequestBody Comment comment) {
+        try {
+            Comment updatedComment = commentService.updateComment(comment);
+            return ResponseEntity.ok(updatedComment);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    /**
+     * Deletes a comment with the given ID.
+     * 
+     * @param commentId The ID of the comment to delete
+     * @return 200 OK if the comment was deleted, 400 Bad Request if the comment
+     *         does not exist
+     */
+    @DeleteMapping("/comments/{commentId}")
+    public ResponseEntity<Void> deleteComment(@PathVariable Long commentId) {
+        try {
+            commentService.deleteComment(commentId);
+            return ResponseEntity.ok().build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         }
