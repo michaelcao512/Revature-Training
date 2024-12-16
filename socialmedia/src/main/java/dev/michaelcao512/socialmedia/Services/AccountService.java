@@ -1,10 +1,10 @@
 package dev.michaelcao512.socialmedia.Services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dev.michaelcao512.socialmedia.Entities.Account;
 import dev.michaelcao512.socialmedia.Entities.UserInfo;
+import dev.michaelcao512.socialmedia.Exceptions.InvalidCredentialsException;
 import dev.michaelcao512.socialmedia.Repositories.AccountRepository;
 import dev.michaelcao512.socialmedia.Repositories.UserInfoRepository;
 import dev.michaelcao512.socialmedia.dto.RegistrationRequest;
@@ -20,16 +20,27 @@ public class AccountService {
     }
 
     public Account registerAccount(RegistrationRequest registrationRequest) {
-        if (accountRepository.existsByEmail(registrationRequest.getEmail())) {
-            return null;
+        // checking for non null required fields
+        if (registrationRequest.getEmail() == null || registrationRequest.getPassword() == null
+                || registrationRequest.getUsername() == null) {
+            throw new IllegalArgumentException("Email, password, and username must be provided.");
+        }
+
+        // checking for empty required fields
+        if (registrationRequest.getEmail().isEmpty() || registrationRequest.getPassword().isEmpty()
+                || registrationRequest.getUsername().isEmpty()) {
+                    throw new IllegalArgumentException("Email, password, and username must be provided.");
+                }
+        // checking if email or username already exists
+        if (accountRepository.existsByEmail(registrationRequest.getEmail())
+                || accountRepository.existsByUsername(registrationRequest.getUsername())) {
+            throw new IllegalArgumentException("Email or username already exists.");
         }
 
         Account newAccount = new Account();
         newAccount.setEmail(registrationRequest.getEmail());
         newAccount.setPassword(registrationRequest.getPassword());
         newAccount.setUsername(registrationRequest.getUsername());
-        
-        accountRepository.save(newAccount);
 
         UserInfo userInfo = new UserInfo();
         userInfo.setAccount(newAccount);
@@ -38,16 +49,37 @@ public class AccountService {
         userInfo.setGender(registrationRequest.getGender());
 
         userInfoRepository.save(userInfo);
+        newAccount.setUserInfo(userInfo);
+        accountRepository.save(newAccount);
 
         return newAccount;
     }
 
-
+    /**
+     * Logs in an account given the provided email and password.
+     * 
+     * @param account The account to log in.
+     * @return The account if the login is successful, null if the login fails.
+     * @throws InvalidCredentialsException If the email or password is incorrect, or
+     *                                     if the account is null.
+     * @throws IllegalArgumentException    If the account is null.
+     */
     public Account loginAccount(Account account) {
-        Account newAccount = accountRepository.findByEmail(account.getEmail());
-        if (newAccount.getPassword().equals(account.getPassword())) {
-            return newAccount;
+        if (account.getEmail() == null || account.getPassword() == null) {
+            throw new IllegalArgumentException("Email and password must be provided.");
         }
-        return null;
+
+        // checking if account exists
+        Account newAccount = accountRepository.findByEmail(account.getEmail());
+        if (newAccount == null) {
+            throw new InvalidCredentialsException("Account not found.");
+        }
+
+        // checking if password matches
+        if (!newAccount.getPassword().equals(account.getPassword())) {
+            throw new InvalidCredentialsException("Invalid password.");
+        }
+
+        return newAccount;
     }
 }

@@ -1,6 +1,5 @@
 package dev.michaelcao512.socialmedia.Services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dev.michaelcao512.socialmedia.Repositories.CommentRepository;
