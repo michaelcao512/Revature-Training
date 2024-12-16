@@ -1,4 +1,4 @@
-package dev.michaelcao512.socialmedia;
+package dev.michaelcao512.socialmedia.UnitTesting;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

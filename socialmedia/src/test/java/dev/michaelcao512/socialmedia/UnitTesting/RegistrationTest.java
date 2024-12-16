@@ -1,4 +1,4 @@
-package dev.michaelcao512.socialmedia;
+package dev.michaelcao512.socialmedia.UnitTesting;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
