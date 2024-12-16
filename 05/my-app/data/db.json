@@ -1,43 +1,14 @@
 {
   "posts": [
     {
-      "id": 1,
       "title": "Post 1",
-      "body": "Post 1 body"
+      "body": "body content",
+      "id": "1"
     },
     {
-      "id": 2,
-      "title": "Post 2",
-      "body": "Post 2 body"
-    },
-    {
-      "id": 3,
-      "title": "Post 3",
-      "body": "Post 3 body"
-    },
-    {
-      "id": "5ff4",
-      "title": "New Post",
-      "body": "New Post Body",
-      "userId": 1
-    },
-    {
-      "id": "9d01",
-      "title": "New Post",
-      "body": "New Post Body",
-      "userId": 1
-    },
-    {
-      "id": "6221",
-      "title": "New Post",
-      "body": "New Post Body",
-      "userId": 1
-    },
-    {
-      "id": "48bd",
-      "title": "New Post",
-      "body": "New Post Body",
-      "userId": 1
+      "id": "ae40",
+      "title": "new post",
+      "body": "content of new post"
     }
   ]
 }

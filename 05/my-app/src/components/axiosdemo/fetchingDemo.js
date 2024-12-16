@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import DisplayPost from "./DisplayPost";
 import CreatePost from "./CreatePost";
 export default function FetchDemo() {
+    // npx json-server --watch ./data/db.json --port 8000
     const [posts, setPosts] = useState([]);
-    // consts url = "https://jsonplaceholder.typicode.com/posts";
     const url = "http://localhost:8000/posts";
     useEffect(() => {
         fetch(url, {
@@ -18,8 +18,9 @@ export default function FetchDemo() {
     return (
         <>
             <h3>Fetch CRUD Demo</h3>
-            <CreatePost />
-            <DisplayPost posts={posts} />
+            
+            <CreatePost posts={posts} setPosts={setPosts} />
+            <DisplayPost posts={posts} setPosts={setPosts} />
         </>
     )
 }

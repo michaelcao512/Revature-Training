@@ -9,6 +9,7 @@ export default function NavBar() {
                 <Link to="/sdc">State</Link>
                 <Link to="/posts">Posts</Link>
                 <Link to="/todolist">Todo List</Link>
+                <Link to="/fetchdemo">Fetch CRUD </Link>
             </div>
         </div>
     );

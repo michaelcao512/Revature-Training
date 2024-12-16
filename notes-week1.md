@@ -808,7 +808,7 @@ class ExampleClass {
 }
 ```
 
-### React
+# React
 
 - JavaScript library (not framework) to create front-end UI.
 - Used with other modules such as React Router and Redux.
@@ -849,13 +849,19 @@ yarn create react-app appname
 
 ### React Components
 
+- reusable ui code logic
+- multiple components make up webpage
+- contains logic and rendering into one unit
+
 - We mainly use Function-based components now because it simplicity and ability to do the same as class-based compoents
 
   - it used to not have state management but React hooks (useState) can do that
 
 - **Class-based component**
 
+  - access to lifecycle methods to handle state
   - class, extends React.Component, returns render() { ... }
+    - render - when elements taken from virtual DOM and synchronized to actual DOM to see (reconiliation)
 
   ```javascript
   class Hello extends React.Component {
@@ -925,7 +931,8 @@ if (boolean) {
 
 ### Props (Properties)
 
-- props are passed from parent to child component
+- props are properties that are paramters from parent to child component allowing you to pass data down thorugh components
+- we pass any amount of variables in the parent to child and then in the child we can access these variables through the single props and access tthe variable using props.variableName or destructuring { variableName}
 
 ```javascript
 function Hello(props) {
@@ -934,6 +941,8 @@ function Hello(props) {
 ```
 
 ### State
+
+- variable used by React to render component holding a current state that changes and updates
 
 - Current state of data that changes over time
 - in classcomponent, you would use this.setState()
@@ -953,3 +962,61 @@ function handleClick(name) {
 
 <button onClick={() => handleClick("Michael")}>Click me</button>;
 ```
+
+### Lists and Keys
+
+- React requires a unique key for every list element
+- during the reconciliation process react uses this key to create the element
+
+```javascript
+<ul>
+  {comments.map((comment) => (
+    <li key={comment.id}>
+      <h3>{comment.name}</h3>
+      <p>{comment.email}</p>
+    </li>
+  ))}
+</ul>
+```
+
+### Hooks
+
+- hooks are functions to add behavior to functions and start with the use key work
+- useState() -> manage state
+- useEffect( function, [dependecies]?)
+
+  - side effects - operations / behaviors that occur in component after rendering (dont impact current rendering cycle)
+
+  - useEffect dependecies (array 2nd parameter)
+    - called at every render (with no dependecies)
+    - renders at every time state of dependecies change
+    - empty array means only inital render
+
+### Fetching data
+- RestFUL API
+  - returns a response from backend to frontend (JSON)
+- asynchronous request
+  - it takes time to make a http request
+  - don't want to stall app waiting on request
+- use a useEffect hook with fetch API or axios API 
+
+
+### React Router
+- declarative
+
+
+- React Router DOM
+- multiple ways
+  - <Switch> Component
+    - ensures a single route is rendered exclusively
+    - without this could render 2 componetns should as the component and not found at same time
+    - ... parmatertized routes satisfied by static route
+
+    - <Link to="/">Home</Link> 
+      - once router is set up we can use Link to link to different URLs
+      - this differs from the <link> tag
+
+### Lifting State
+- parent to child - sharing props
+- parent to multiple child - sharing props between siblings = lifting
+- when you want to change state of two components together, move to common parent and pass state down to them via props

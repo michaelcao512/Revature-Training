@@ -19,6 +19,7 @@ function App() {
         <Route path="/sdc" element={<StateDemoComponent />} />
         <Route path="/listandkeys" element={<ListandKeysComponent />} />
         {/* <Route path="/posts" element={<Post />} /> */}
+        <Route path="/fetchdemo" element={<FetchDemo />} />
         <Route path="/todolist" element={<ToDoList />} />
       </Routes>
     </Router>

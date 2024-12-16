@@ -1,4 +1,4 @@
-export default function CreatePost() {
+export default function CreatePost(props) {
     const url = "http://localhost:8000/posts";
 
     const handleSubmit = (event) => {
@@ -15,11 +15,14 @@ export default function CreatePost() {
         })
             .then((response) => response.json())
             .then((data) => console.log(data));
+        
+        props.setPosts([...props.posts, post]);
+    
     };
 
     return (
         <>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <input type="text" name="title" placeholder="Title" />
                 <input type="text" name="body" placeholder="Body" />
                 <button type="submit">Create</button>
