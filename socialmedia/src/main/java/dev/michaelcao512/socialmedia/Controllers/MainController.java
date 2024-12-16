@@ -7,12 +7,14 @@ import dev.michaelcao512.socialmedia.Entities.Account;
 import dev.michaelcao512.socialmedia.Entities.Comment;
 import dev.michaelcao512.socialmedia.Entities.Friendship;
 import dev.michaelcao512.socialmedia.Entities.Post;
+import dev.michaelcao512.socialmedia.Entities.Reaction;
 import dev.michaelcao512.socialmedia.Entities.UserInfo;
 import dev.michaelcao512.socialmedia.Exceptions.InvalidCredentialsException;
 import dev.michaelcao512.socialmedia.Services.AccountService;
 import dev.michaelcao512.socialmedia.Services.CommentService;
 import dev.michaelcao512.socialmedia.Services.FriendshipService;
 import dev.michaelcao512.socialmedia.Services.PostService;
+import dev.michaelcao512.socialmedia.Services.ReactionService;
 import dev.michaelcao512.socialmedia.Services.UserInfoService;
 import dev.michaelcao512.socialmedia.dto.FriendshipRequest;
 import dev.michaelcao512.socialmedia.dto.RegistrationRequest;
@@ -35,14 +37,17 @@ public class MainController {
     private final FriendshipService FriendshipService;
     private final PostService postService;
     private final CommentService commentService;
+    private final ReactionService reactionService;
 
     public MainController(AccountService accountService, UserInfoService userInfoService,
-            FriendshipService FriendshipService, PostService postService, CommentService commentService) {
+            FriendshipService FriendshipService, PostService postService, CommentService commentService,
+            ReactionService reactionService) {
         this.accountService = accountService;
         this.userInfoService = userInfoService;
         this.FriendshipService = FriendshipService;
         this.postService = postService;
         this.commentService = commentService;
+        this.reactionService = reactionService;
     }
 
     /**
@@ -379,4 +384,92 @@ public class MainController {
         }
     }
 
+    /**
+     * Retrieves all reactions for a given post.
+     * 
+     * @param postId the id of the post to retrieve reactions for
+     * @return a list of reactions associated with the given post id
+     * @throws IllegalArgumentException if the post does not exist
+     */
+    @GetMapping("/posts/{postId}/reactions")
+    public ResponseEntity<List<Reaction>> getReactionsByPostId(@PathVariable Long postId) {
+        try {
+            List<Reaction> reactions = reactionService.getReactionsByPostId(postId);
+            return ResponseEntity.ok(reactions);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    /**
+     * Retrieves a reaction with the given reaction id.
+     * 
+     * @param reactionId the id of the reaction to be retrieved
+     * @return the reaction with the given reaction id
+     * @throws IllegalArgumentException if the reaction does not exist
+     */
+    @GetMapping("/reactions/{reactionId}")
+    public ResponseEntity<Reaction> getReactionById(@PathVariable Long reactionId) {
+        try {
+            Reaction reaction = reactionService.getReactionById(reactionId);
+            return ResponseEntity.ok(reaction);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    /**
+     * Creates a new reaction for the given post and account.
+     * 
+     * The object in the request body should contain the post ID, account ID, and
+     * type of the reaction.
+     * 
+     * @param reaction the reaction to be created
+     * @return the created reaction if the creation is successful
+     * @throws IllegalArgumentException if the reaction is null, the post does not
+     *                                  exist, or the account does not exist
+     */
+    @PostMapping("/reactions/create")
+    public ResponseEntity<Reaction> createReaction(@RequestBody Reaction reaction) {
+        try {
+            Reaction newReaction = reactionService.createReaction(reaction);
+            return ResponseEntity.ok(newReaction);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    /**
+     * Updates a reaction with the given ID.
+     * 
+     * @param reaction the reaction to be updated
+     * @return the updated reaction if the update is successful
+     * @throws IllegalArgumentException if the reaction is null or does not exist
+     */
+    @PostMapping("/reactions/update")
+    public ResponseEntity<Reaction> updateReaction(@RequestBody Reaction reaction) {
+        try {
+            Reaction updatedReaction = reactionService.updateReaction(reaction);
+            return ResponseEntity.ok(updatedReaction);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    /**
+     * Deletes a reaction with the given ID.
+     * 
+     * @param reactionId The ID of the reaction to delete
+     * @return 200 OK if the reaction was deleted, 400 Bad Request if the reaction
+     *         does not exist
+     */
+    @DeleteMapping("/reactions/{reactionId}")
+    public ResponseEntity<Void> deleteReaction(@PathVariable Long reactionId) {
+        try {
+            reactionService.deleteReaction(reactionId);
+            return ResponseEntity.ok().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }
