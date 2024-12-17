@@ -13,5 +13,4 @@ import dev.michaelcao512.socialmedia.Entities.UserInfo;
 public interface UserInfoRepository extends JpaRepository<UserInfo, Long> {
     @Query("SELECT u FROM UserInfo u WHERE u.account.accountId = :accountId")
     Optional<UserInfo> findByAccountId(@Param("accountId") Long accountId);
-
 }

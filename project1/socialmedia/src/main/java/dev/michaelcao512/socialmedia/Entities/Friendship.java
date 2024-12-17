@@ -14,7 +14,7 @@ public class Friendship {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long friidendshipId;
+    private Long friendshipId;
 
     @ManyToOne
     @JoinColumn(name = "accountId")
@@ -23,6 +23,5 @@ public class Friendship {
     @ManyToOne
     @JoinColumn(name = "friendId")
     private Account friend;
-
 
 }

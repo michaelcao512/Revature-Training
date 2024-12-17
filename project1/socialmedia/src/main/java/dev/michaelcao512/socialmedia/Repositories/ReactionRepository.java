@@ -14,5 +14,5 @@ public interface ReactionRepository extends JpaRepository<Reaction, Long> {
     List<Reaction> findByPost(Post post);
 
     boolean existsByPost(Post post);
-    
+
 }

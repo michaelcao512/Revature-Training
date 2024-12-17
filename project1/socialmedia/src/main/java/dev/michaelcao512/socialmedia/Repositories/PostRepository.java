@@ -15,5 +15,4 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     boolean existsByAccount(Account account);
 
-    
 }

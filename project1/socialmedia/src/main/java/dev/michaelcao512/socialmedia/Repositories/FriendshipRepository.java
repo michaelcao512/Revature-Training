@@ -17,5 +17,5 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
     Optional<Friendship> findByAccountAndFriend(Account account, Account friend);
 
     List<Friendship> findAllByAccount(Account account);
-    
+
 }

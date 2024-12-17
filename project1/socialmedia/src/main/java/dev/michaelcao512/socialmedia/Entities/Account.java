@@ -44,7 +44,6 @@ public class Account {
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<Post> posts;
 
-
     @PreUpdate
     public void onUpdate() {
         this.dateUpdated = LocalDateTime.now();
