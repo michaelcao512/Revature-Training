@@ -9,6 +9,8 @@ export default function NavBar() {
                 <Link to="/sdc">State</Link>
                 <Link to="/todolist">Todo List</Link>
                 <Link to="/fetchdemo">Fetch CRUD </Link>
+                <Link to="/useref">UseRef</Link>
+                <Link to="/controlledcomponent">ControlledComponent </Link>
             </div>
         </div>
     );

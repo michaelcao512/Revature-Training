@@ -947,9 +947,13 @@ function Hello(props) {
 - Current state of data that changes over time
 - in classcomponent, you would use this.setState()
 - in Functional Components, you would use hooks (useState())
+
   ```javascript
   const [name, setName] = useState("Michael");
   ```
+
+  - drawback
+    - when state is changed, it gets rerendered when sometimes you don't want it to
 
 ### Events in React
 
@@ -993,30 +997,130 @@ function handleClick(name) {
     - empty array means only inital render
 
 ### Fetching data
+
 - RestFUL API
   - returns a response from backend to frontend (JSON)
 - asynchronous request
   - it takes time to make a http request
   - don't want to stall app waiting on request
-- use a useEffect hook with fetch API or axios API 
-
+- use a useEffect hook with fetch API or axios API
 
 ### React Router
-- declarative
 
-
+- declarative model of navigaitonal components provided with react-router-dom (or react-router-native for mobile)
 - React Router DOM
-- multiple ways
-  - <Switch> Component
-    - ensures a single route is rendered exclusively
-    - without this could render 2 componetns should as the component and not found at same time
-    - ... parmatertized routes satisfied by static route
+
+  - BrowserRouter
+
+    - uses HTML5 history API to keep UI sync with url
+    - <Switch> Component
+
+      - ensures a single route is rendered exclusively
+      - without this could render 2 componetns should as the component and not found at same time
+      - ... parmatertized routes satisfied by static route
+      - <Route> tags encapsulate a renderable component to switch to based on url
 
     - <Link to="/">Home</Link> 
       - once router is set up we can use Link to link to different URLs
       - this differs from the <link> tag
 
 ### Lifting State
+
 - parent to child - sharing props
 - parent to multiple child - sharing props between siblings = lifting
 - when you want to change state of two components together, move to common parent and pass state down to them via props
+
+### Hgiher Order Components
+
+- function that takes a component and returns enhanced component
+
+### useRefs
+
+- when we want a component to remember information we can use ref but we don't want it to rerender upon change (useState always rerender upon state change)
+- can manipulate the state use .current
+
+```javascript
+const initialState = 5;
+const state = useRef(initalState);
+
+state.current = 10;
+```
+
+### React Context
+
+- gives a way to pass data down through a tree without manually passing a prop at every single level from parent to child
+- global storage space that shared between all components
+- Creating Context
+
+  ```javascript
+  const MyContext = createContext();
+  ```
+
+  - method to create global context object
+
+- Provider
+
+  ```javascript
+  <MyContext.Provider value={sharedData}>
+  ```
+
+  - component at top level to wrap components that has access to the context
+  - value attribute provides the shared data to provide in context
+
+- Consuming
+
+  ```javascript
+  const sharedData = useContext(MyContext);
+  ```
+
+  - hook that has access to the shared data
+  - or consumer component wraps what is utilizing the context
+
+### React Testing
+
+- jest
+  - pick up any files with .test.js
+- react testing
+
+- run test
+  `npm run test` or `yarn test`
+- creating a test
+
+  ```javascript
+  test("test description", () => {
+    render(<App />);
+    const linkElement = screen.getByText(/test paragraph/i);
+    expect(linkElement).toBeInTheDocument();
+  });
+  ```
+
+- creating a new test suite
+
+  ```javascript
+  describe("suite of tests description", () => {
+    // tests...
+  });
+  ```
+  - Testing Steps (3A - arrange, act, assert)
+    1. render the component and select the elements you want to interact with
+    2. interact with the element
+    3. assert
+
+    - in Spring Boot
+      - create the object and variables needed
+      - interact upon the objects / variables
+      - assert
+
+  - utilities
+    - `render(<Component/>)`
+      - renders the component to test
+    - `screen` object
+      - search something on the UI
+      - .getByText(text)
+      - .getByTestId()
+        - gets based on the attribute data-testid attribute
+    - `expect(element)`
+      - .toBeInTheDocument()
+    - `fireEvent` object
+      - .click(buttonElement)
+

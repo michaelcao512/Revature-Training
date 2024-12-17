@@ -1,6 +1,6 @@
 import { useState } from "react";
 function ListAdd(props) {
-    const { list, setList } = props;
+    const { setList } = props;
 
     const [value, setValue] = useState("");
     

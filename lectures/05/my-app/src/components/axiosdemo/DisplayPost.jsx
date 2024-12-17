@@ -1,4 +1,3 @@
-import { useState } from "react"
 import DeletePost from "./DeletePost";
 import UpdatePost from "./UpdatePost";
 

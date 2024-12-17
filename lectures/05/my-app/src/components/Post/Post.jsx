@@ -10,7 +10,7 @@ export default function Post(props) {
         <>
             <h1>Post</h1>
             <p>{content}</p>
-            <Comments comments={props.comments}></Comments>
+            <Comments comments={props.comments} setComments={setComments}></Comments>
         </>
     );
 }
