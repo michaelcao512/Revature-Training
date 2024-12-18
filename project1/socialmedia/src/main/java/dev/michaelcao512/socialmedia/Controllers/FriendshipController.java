@@ -38,12 +38,8 @@ public class FriendshipController {
      */
     @PostMapping
     public ResponseEntity<Friendship> addFriend(@RequestBody FriendshipRequest friendshipRequest) {
-        try {
-            Friendship friendship = friendshipService.addFriend(friendshipRequest);
-            return ResponseEntity.ok(friendship);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        Friendship friendship = friendshipService.addFriend(friendshipRequest);
+        return ResponseEntity.ok(friendship);
     }
 
     /**
@@ -56,12 +52,8 @@ public class FriendshipController {
      */
     @DeleteMapping("/{friendshipId}")
     public ResponseEntity<Void> removeFriend(@RequestBody FriendshipRequest friendshipRequest) {
-        try {
-            friendshipService.removeFriend(friendshipRequest);
-            return ResponseEntity.ok().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        friendshipService.removeFriend(friendshipRequest);
+        return ResponseEntity.ok().build();
     }
 
     /**
@@ -73,11 +65,7 @@ public class FriendshipController {
      */
     @GetMapping("/getFriendshipByAccountId/{accountId}")
     public ResponseEntity<List<Friendship>> getFriendshipByAccountId(@PathVariable Long accountId) {
-        try {
-            List<Friendship> friendship = friendshipService.getAllFriends(accountId);
-            return ResponseEntity.ok(friendship);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        List<Friendship> friendship = friendshipService.getAllFriends(accountId);
+        return ResponseEntity.ok(friendship);
     }
 }

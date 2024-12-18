@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 
 import dev.michaelcao512.socialmedia.Entities.Account;
 import dev.michaelcao512.socialmedia.Entities.UserInfo;
+import dev.michaelcao512.socialmedia.Exceptions.EmailAlreadyExistsException;
 import dev.michaelcao512.socialmedia.Exceptions.InvalidCredentialsException;
+import dev.michaelcao512.socialmedia.Exceptions.UsernameAlreadyExistsException;
 import dev.michaelcao512.socialmedia.Repositories.AccountRepository;
 import dev.michaelcao512.socialmedia.Repositories.UserInfoRepository;
 import dev.michaelcao512.socialmedia.dto.RegistrationRequest;
@@ -31,7 +33,7 @@ public class AccountService implements UserDetailsService {
         this.applicationContext = applicationContext;
 
     }
-    
+
     private PasswordEncoder getPasswordEncoder() {
         return applicationContext.getBean(PasswordEncoder.class);
     }
@@ -56,9 +58,11 @@ public class AccountService implements UserDetailsService {
         }
 
         // checking if email or username already exists
-        if (accountRepository.existsByEmail(email)
-                || accountRepository.existsByUsername(username)) {
-            throw new IllegalArgumentException("Email or username already exists.");
+        if (accountRepository.existsByUsername(username)) {
+            throw new UsernameAlreadyExistsException();
+        }
+        if (accountRepository.existsByEmail(email)) {
+            throw new EmailAlreadyExistsException();
         }
 
         password = getPasswordEncoder().encode(password);

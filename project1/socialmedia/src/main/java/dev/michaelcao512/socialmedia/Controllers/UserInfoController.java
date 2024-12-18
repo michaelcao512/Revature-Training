@@ -34,12 +34,8 @@ public class UserInfoController {
      */
     @PatchMapping("/{accountId}")
     public ResponseEntity<UserInfo> updateUserInfo(@RequestBody UserInfo userInfo) {
-        try {
-            UserInfo newUserInfo = userInfoService.updateUserInfo(userInfo);
-            return ResponseEntity.ok(newUserInfo);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        UserInfo newUserInfo = userInfoService.updateUserInfo(userInfo);
+        return ResponseEntity.ok(newUserInfo);
     }
 
     /**
@@ -51,11 +47,7 @@ public class UserInfoController {
      */
     @GetMapping("{accountId}")
     public ResponseEntity<UserInfo> getUserInfo(@PathVariable Long accountId) {
-        try {
-            UserInfo userInfo = userInfoService.getUserInfo(accountId);
-            return ResponseEntity.ok(userInfo);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        UserInfo userInfo = userInfoService.getUserInfo(accountId);
+        return ResponseEntity.ok(userInfo);
     }
 }

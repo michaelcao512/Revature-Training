@@ -65,12 +65,8 @@ public class PostController {
 
     @DeleteMapping("/{postId}")
     public ResponseEntity<Void> deletePost(@PathVariable Long postId) {
-        try {
-            postService.deletePost(postId);
-            return ResponseEntity.ok().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        postService.deletePost(postId);
+        return ResponseEntity.ok().build();
     }
 
     /**
@@ -86,12 +82,8 @@ public class PostController {
 
     @PatchMapping("/{postId}")
     public ResponseEntity<Post> updatePost(@RequestBody Post post) {
-        try {
-            Post updatedPost = postService.updatePost(post);
-            return ResponseEntity.ok(updatedPost);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        Post updatedPost = postService.updatePost(post);
+        return ResponseEntity.ok(updatedPost);
     }
 
     /**
@@ -103,12 +95,8 @@ public class PostController {
      */
     @GetMapping("/{postId}")
     public ResponseEntity<Post> getPostById(@PathVariable Long postId) {
-        try {
-            Post post = postService.getPostById(postId);
-            return ResponseEntity.ok(post);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        Post post = postService.getPostById(postId);
+        return ResponseEntity.ok(post);
     }
 
     /**
@@ -120,11 +108,7 @@ public class PostController {
      */
     @GetMapping("/getPostsByAccountId/{accountId}")
     public ResponseEntity<Post> getPostsByAccountId(@RequestParam Long accountId) {
-        try {
-            Post post = postService.getPostById(accountId);
-            return ResponseEntity.ok(post);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        Post post = postService.getPostById(accountId);
+        return ResponseEntity.ok(post);
     }
 }

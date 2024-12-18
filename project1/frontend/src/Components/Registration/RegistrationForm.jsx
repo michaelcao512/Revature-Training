@@ -1,5 +1,6 @@
 
-import { Box, Button, FormControl, FormLabel, MenuItem, Select, TextField} from '@mui/material';
+import { Box, Button, FormControl, FormLabel, MenuItem, Select, TextField } from '@mui/material';
+import AuthService from '../../Services/auth.service';
 function RegistrationForm() {
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -17,15 +18,26 @@ function RegistrationForm() {
             email: email,
             password: password,
             username: username,
-            first_name: firstName,
-            last_name: lastName,
+            firstName: firstName,
+            lastName: lastName,
             gender: gender
         };
 
-
-        url = "http://localhost:8080/api/register";
-        console.log(registrationRequest);
-
+        AuthService.register(registrationRequest)
+            .then(response => {
+                console.log("registration response: ", response);
+                AuthService.login({ username: username, password: password })
+                    .then(response => {
+                        console.log("login response: ", response);
+                    })
+                    .catch(error => {
+                        console.log("login error: ", error);
+                    });
+            })
+            .catch(error => {
+                console.log("registration error: ", error);
+            });
+    
         
     };
     return ( 

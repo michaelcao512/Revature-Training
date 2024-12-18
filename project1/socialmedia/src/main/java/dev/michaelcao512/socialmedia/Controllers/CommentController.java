@@ -32,12 +32,8 @@ public class CommentController {
      */
     @GetMapping("/comments/{commentId}")
     public ResponseEntity<Comment> getCommentById(@PathVariable Long commentId) {
-        try {
-            Comment comment = commentService.getCommentById(commentId);
-            return ResponseEntity.ok(comment);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        Comment comment = commentService.getCommentById(commentId);
+        return ResponseEntity.ok(comment);
     }
 
     /**
@@ -53,12 +49,8 @@ public class CommentController {
      */
     @PostMapping("/comments/create")
     public ResponseEntity<Comment> createComment(@RequestBody Comment comment) {
-        try {
-            Comment newComment = commentService.createComment(comment);
-            return ResponseEntity.ok(newComment);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        Comment newComment = commentService.createComment(comment);
+        return ResponseEntity.ok(newComment);
     }
 
     /**
@@ -70,12 +62,9 @@ public class CommentController {
      */
     @PostMapping("/comments/update")
     public ResponseEntity<Comment> updateComment(@RequestBody Comment comment) {
-        try {
-            Comment updatedComment = commentService.updateComment(comment);
-            return ResponseEntity.ok(updatedComment);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        Comment updatedComment = commentService.updateComment(comment);
+        return ResponseEntity.ok(updatedComment);
+
     }
 
     /**
@@ -87,12 +76,8 @@ public class CommentController {
      */
     @DeleteMapping("/comments/{commentId}")
     public ResponseEntity<Void> deleteComment(@PathVariable Long commentId) {
-        try {
-            commentService.deleteComment(commentId);
-            return ResponseEntity.ok().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        commentService.deleteComment(commentId);
+        return ResponseEntity.ok().build();
     }
 
     /**
@@ -105,11 +90,7 @@ public class CommentController {
 
     @GetMapping("/{postId}/comments")
     public ResponseEntity<List<Comment>> getCommentsByPostId(@PathVariable Long postId) {
-        try {
-            List<Comment> comments = commentService.getCommentsByPostId(postId);
-            return ResponseEntity.ok(comments);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        List<Comment> comments = commentService.getCommentsByPostId(postId);
+        return ResponseEntity.ok(comments);
     }
 }

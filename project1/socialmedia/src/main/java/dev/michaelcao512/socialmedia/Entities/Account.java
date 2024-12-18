@@ -39,6 +39,9 @@ public class Account implements UserDetails {
     private LocalDateTime dateCreated = LocalDateTime.now();
     private LocalDateTime dateUpdated = LocalDateTime.now();
 
+    @Column()
+    private Collection<? extends GrantedAuthority> authorities;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "userInfoId")
     @JsonManagedReference
@@ -61,7 +64,7 @@ public class Account implements UserDetails {
     // ===== Implementing UserDetails Methods =====
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return authorities;
     }
 
     @Override

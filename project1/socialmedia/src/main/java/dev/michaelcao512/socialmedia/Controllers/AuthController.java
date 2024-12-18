@@ -1,6 +1,8 @@
 package dev.michaelcao512.socialmedia.Controllers;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -38,13 +40,9 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<Account> register(@RequestBody RegistrationRequest registrationRequest) {
-        Account account;
-        try {
-        account = accountService.registerAccount(registrationRequest);
-        } catch (IllegalArgumentException e) {
-        return ResponseEntity.badRequest().build();
-        }
-
+        Logger logger = org.slf4j.LoggerFactory.getLogger(AuthController.class);
+        logger.info("Registering account: " + registrationRequest);
+        Account account = accountService.registerAccount(registrationRequest);
         return ResponseEntity.ok(account);
     }
 

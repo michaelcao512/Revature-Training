@@ -37,12 +37,8 @@ public class ReactionController {
      */
     @PostMapping
     public ResponseEntity<Reaction> createReaction(@RequestBody Reaction reaction) {
-        try {
-            Reaction newReaction = reactionService.createReaction(reaction);
-            return ResponseEntity.ok(newReaction);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        Reaction newReaction = reactionService.createReaction(reaction);
+        return ResponseEntity.ok(newReaction);
     }
 
     /**
@@ -54,12 +50,8 @@ public class ReactionController {
      */
     @GetMapping("/{reactionId}")
     public ResponseEntity<Reaction> getReactionById(@PathVariable Long reactionId) {
-        try {
-            Reaction reaction = reactionService.getReactionById(reactionId);
-            return ResponseEntity.ok(reaction);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        Reaction reaction = reactionService.getReactionById(reactionId);
+        return ResponseEntity.ok(reaction);
     }
 
     /**
@@ -71,12 +63,8 @@ public class ReactionController {
      */
     @PatchMapping("/{reactionId}")
     public ResponseEntity<Reaction> updateReaction(@RequestBody Reaction reaction) {
-        try {
-            Reaction updatedReaction = reactionService.updateReaction(reaction);
-            return ResponseEntity.ok(updatedReaction);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        Reaction updatedReaction = reactionService.updateReaction(reaction);
+        return ResponseEntity.ok(updatedReaction);
     }
 
     /**
@@ -88,12 +76,8 @@ public class ReactionController {
      */
     @DeleteMapping("/{reactionId}")
     public ResponseEntity<Void> deleteReaction(@PathVariable Long reactionId) {
-        try {
-            reactionService.deleteReaction(reactionId);
-            return ResponseEntity.ok().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        reactionService.deleteReaction(reactionId);
+        return ResponseEntity.ok().build();
     }
 
     /**
@@ -105,11 +89,7 @@ public class ReactionController {
      */
     @GetMapping("/getReactionsByPostId/{postId}")
     public ResponseEntity<List<Reaction>> getReactionsByPostId(@PathVariable Long postId) {
-        try {
-            List<Reaction> reactions = reactionService.getReactionsByPostId(postId);
-            return ResponseEntity.ok(reactions);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        List<Reaction> reactions = reactionService.getReactionsByPostId(postId);
+        return ResponseEntity.ok(reactions);
     }
 }
