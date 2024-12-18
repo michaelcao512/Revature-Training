@@ -1,6 +1,7 @@
 package dev.michaelcao512.socialmedia.Services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -140,6 +141,15 @@ public class AccountService implements UserDetailsService {
 
     public List<Account> getAllAccounts() {
         return accountRepository.findAll();
+    }
+
+    public Account getAccountById(Long accountId) {
+        Optional<Account> account = accountRepository.findById(accountId);
+        if (account.isEmpty()) {
+            throw new IllegalArgumentException("Account doesn't exist");
+        }
+        return account.get();
+
     }
 
 }

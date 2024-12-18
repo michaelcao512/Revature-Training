@@ -29,6 +29,17 @@ public class AccountController {
     }
 
     /**
+     * Retrieves the account associated with the given account id.
+     *
+     * @param accountId the id of the account to retrieve
+     * @return the account associated with the given id
+     */
+    @GetMapping("/{accountId}")
+    public ResponseEntity<Account> getAccountById(@PathVariable Long accountId) {
+        return ResponseEntity.ok(accountService.getAccountById(accountId));
+    }
+
+    /**
      * TODO
      * Updates the account information associated with the given account id.
      *
