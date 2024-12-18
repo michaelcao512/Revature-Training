@@ -1,4 +1,4 @@
-package dev.michaelcao512.socialmedia.Configurations;
+package dev.michaelcao512.socialmedia.dto;
 
 public class AuthenticationResponse {
     private final String jwt;

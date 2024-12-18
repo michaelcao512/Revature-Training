@@ -7,6 +7,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,8 @@ import dev.michaelcao512.socialmedia.Services.AccountService;
 import dev.michaelcao512.socialmedia.dto.JwtResponse;
 import dev.michaelcao512.socialmedia.dto.LoginRequest;
 import dev.michaelcao512.socialmedia.dto.RegistrationRequest;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 @RestController
 @RequestMapping("/auth")
@@ -33,7 +36,19 @@ public class AuthController {
     @Autowired
     JwtUtils jwtUtils;
 
-    @RequestMapping("/login")
+    @PostMapping("/register")
+    public ResponseEntity<Account> register(@RequestBody RegistrationRequest registrationRequest) {
+        Account account;
+        try {
+        account = accountService.registerAccount(registrationRequest);
+        } catch (IllegalArgumentException e) {
+        return ResponseEntity.badRequest().build();
+        }
+
+        return ResponseEntity.ok(account);
+    }
+
+    @PostMapping("/login")
     public ResponseEntity<JwtResponse> authenticateUser(@RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.username(), loginRequest.password()));
@@ -47,15 +62,4 @@ public class AuthController {
                 new JwtResponse(jwt, account.getAccountId(), account.getUsername(), account.getEmail()));
     }
 
-    @RequestMapping("/register")
-    public ResponseEntity<Account> register(@RequestBody RegistrationRequest registrationRequest) {
-        Account account;
-        try {
-            account = accountService.registerAccount(registrationRequest);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        return ResponseEntity.ok(account);
-    }
 }

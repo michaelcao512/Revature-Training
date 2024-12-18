@@ -2,9 +2,13 @@ package dev.michaelcao512.socialmedia.Services;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import dev.michaelcao512.socialmedia.Entities.Account;
@@ -18,42 +22,63 @@ import dev.michaelcao512.socialmedia.dto.RegistrationRequest;
 public class AccountService implements UserDetailsService {
     private final AccountRepository accountRepository;
     private final UserInfoRepository userInfoRepository;
+    private final ApplicationContext applicationContext;
 
-    public AccountService(AccountRepository accountRepository, UserInfoRepository userInfoRepository) {
+    public AccountService(AccountRepository accountRepository, UserInfoRepository userInfoRepository,
+            ApplicationContext applicationContext) {
         this.accountRepository = accountRepository;
         this.userInfoRepository = userInfoRepository;
+        this.applicationContext = applicationContext;
+
+    }
+    
+    private PasswordEncoder getPasswordEncoder() {
+        return applicationContext.getBean(PasswordEncoder.class);
     }
 
     public Account registerAccount(RegistrationRequest registrationRequest) {
+        Logger logger = LoggerFactory.getLogger(AccountService.class);
+
+        String email = registrationRequest.getEmail();
+        String password = registrationRequest.getPassword();
+        String username = registrationRequest.getUsername();
+        String firstName = registrationRequest.getFirstName();
+        String lastName = registrationRequest.getLastName();
+        String gender = registrationRequest.getGender();
         // checking for non null required fields
-        if (registrationRequest.getEmail() == null || registrationRequest.getPassword() == null
-                || registrationRequest.getUsername() == null) {
+        if (email == null || password == null || username == null) {
             throw new IllegalArgumentException("Email, password, and username must be provided.");
         }
 
         // checking for empty required fields
-        if (registrationRequest.getEmail().isEmpty() || registrationRequest.getPassword().isEmpty()
-                || registrationRequest.getUsername().isEmpty()) {
+        if (email.isEmpty() || password.isEmpty() || username.isEmpty()) {
             throw new IllegalArgumentException("Email, password, and username must be provided.");
         }
+
         // checking if email or username already exists
-        if (accountRepository.existsByEmail(registrationRequest.getEmail())
-                || accountRepository.existsByUsername(registrationRequest.getUsername())) {
+        if (accountRepository.existsByEmail(email)
+                || accountRepository.existsByUsername(username)) {
             throw new IllegalArgumentException("Email or username already exists.");
         }
 
+        password = getPasswordEncoder().encode(password);
+
         Account newAccount = new Account();
-        newAccount.setEmail(registrationRequest.getEmail());
-        newAccount.setPassword(registrationRequest.getPassword());
-        newAccount.setUsername(registrationRequest.getUsername());
+        newAccount.setEmail(email);
+        newAccount.setPassword(password);
+        newAccount.setUsername(username);
+
+        Account savedAccount = accountRepository.save(newAccount);
+        logger.info("saved account");
 
         UserInfo userInfo = new UserInfo();
-        userInfo.setAccount(newAccount);
-        userInfo.setFirstName(registrationRequest.getFirstName());
-        userInfo.setLastName(registrationRequest.getLastName());
-        userInfo.setGender(registrationRequest.getGender());
+        userInfo.setAccount(savedAccount);
+        userInfo.setFirstName(firstName);
+        userInfo.setLastName(lastName);
+        userInfo.setGender(gender);
 
         userInfoRepository.save(userInfo);
+
         newAccount.setUserInfo(userInfo);
         accountRepository.save(newAccount);
 
@@ -65,23 +90,27 @@ public class AccountService implements UserDetailsService {
      * 
      * @param account The account to log in.
      * @return The account if the login is successful, null if the login fails.
-     * @throws InvalidCredentialsException If the email or password is incorrect, or
-     *                                     if the account is null.
+     * @throws InvalidCredentialsException If the username or password is incorrect
      * @throws IllegalArgumentException    If the account is null.
      */
     public Account loginAccount(Account account) {
-        if (account.getEmail() == null || account.getPassword() == null) {
+        String email = account.getEmail();
+        String password = account.getPassword();
+        String username = account.getUsername();
+        // checking for non null required fields
+        if (username == null || password == null) {
             throw new IllegalArgumentException("Email and password must be provided.");
         }
 
         // checking if account exists
-        Account newAccount = accountRepository.findByEmail(account.getEmail());
+        Account newAccount = accountRepository.findByUsername(username);
         if (newAccount == null) {
             throw new InvalidCredentialsException("Account not found.");
         }
 
+        password = getPasswordEncoder().encode(password);
         // checking if password matches
-        if (!newAccount.getPassword().equals(account.getPassword())) {
+        if (!password.equals(password)) {
             throw new InvalidCredentialsException("Invalid password.");
         }
 

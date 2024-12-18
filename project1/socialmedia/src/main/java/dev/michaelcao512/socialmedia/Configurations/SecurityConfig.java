@@ -18,13 +18,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import dev.michaelcao512.socialmedia.Services.AccountService;
 
 @Configuration
-@EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
-    @Autowired
     private AccountService accountService;
-
-    @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
+
+    public SecurityConfig(AccountService accountService, AuthEntryPointJwt unauthorizedHandler) {
+        this.accountService = accountService;
+        this.unauthorizedHandler = unauthorizedHandler;
+    }
 
     @Bean
     AuthTokenFilter authenticationJwtTokenFilter() {
@@ -51,16 +53,18 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(crsf -> crsf.disable())
+        http
+                .cors(cors -> cors.disable())
+                .csrf(crsf -> crsf.disable())
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> 
-                auth.requestMatchers("/auth/**").permitAll()
-                        .anyRequest().permitAll());
-                        
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/auth/**").permitAll()
+                        .anyRequest().authenticated());
+
         http.authenticationProvider(authenticationProvider());
-        ;
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 }
