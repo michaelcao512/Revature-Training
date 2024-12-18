@@ -1,5 +1,10 @@
 package dev.michaelcao512.socialmedia.Services;
 
+import java.util.List;
+
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import dev.michaelcao512.socialmedia.Entities.Account;
@@ -10,7 +15,7 @@ import dev.michaelcao512.socialmedia.Repositories.UserInfoRepository;
 import dev.michaelcao512.socialmedia.dto.RegistrationRequest;
 
 @Service
-public class AccountService {
+public class AccountService implements UserDetailsService {
     private final AccountRepository accountRepository;
     private final UserInfoRepository userInfoRepository;
 
@@ -29,8 +34,8 @@ public class AccountService {
         // checking for empty required fields
         if (registrationRequest.getEmail().isEmpty() || registrationRequest.getPassword().isEmpty()
                 || registrationRequest.getUsername().isEmpty()) {
-                    throw new IllegalArgumentException("Email, password, and username must be provided.");
-                }
+            throw new IllegalArgumentException("Email, password, and username must be provided.");
+        }
         // checking if email or username already exists
         if (accountRepository.existsByEmail(registrationRequest.getEmail())
                 || accountRepository.existsByUsername(registrationRequest.getUsername())) {
@@ -82,4 +87,26 @@ public class AccountService {
 
         return newAccount;
     }
+
+    public Account getAccountByEmail(String email) {
+        return accountRepository.findByEmail(email);
+    }
+
+    public Account getAccountByUsername(String username) {
+        return accountRepository.findByUsername(username);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Account account = accountRepository.findByUsername(username);
+        if (account == null) {
+            throw new UsernameNotFoundException("User not found.");
+        }
+        return account;
+    }
+
+    public List<Account> getAllAccounts() {
+        return accountRepository.findAll();
+    }
+
 }
