@@ -6,16 +6,6 @@ import UserService from "../../Services/user.service";
 
 function RegistrationContainer() {
 
-    const handleClick = () => {
-        
-        UserService.getAllUsers()
-            .then(response => {
-                console.log("response: ", response);
-            })
-            .catch(error => {
-                console.log("error: ", error);
-            });
-    }
     return ( 
         <StyledStack>
             <StyledCard>
@@ -27,8 +17,6 @@ function RegistrationContainer() {
                     <StyledLink destination="/login" text="Login" />
                 </Box>         
                 
-            <button onClick={handleClick}>Click Me</button>
-
             </StyledCard>
 
         </StyledStack>

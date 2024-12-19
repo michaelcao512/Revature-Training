@@ -336,6 +336,7 @@ sayHello2("Cao");
 ### Callback Function
 
 Passing a function as an argument (higher-order functions).
+a function that executes after something is done
 
 ```javascript
 function name(parameter1, ..., callback) {

@@ -277,6 +277,83 @@ state.current = 10;
   - **Cluster**: multiple brokers work together to handle ingestion, storage, and processing of messages
   - **Replication**: handles fault tolerancing - each partition replicated across different rokers ensuring data is not lost even if broker fails
 
-```
+# Message Queues
 
-```
+- Kafka
+- a message queue is a thing that resides in between two entties who want to communicate
+- exposing interface for adding and consuming(reading/removing) messages
+  - exposing = revealing a way to interact - abstracting and encapsulating - keeping interfaces public while other things private
+  - consume = other side utilizes exposed interface (reading) - generlly the message is removed after
+  - push vs poll
+    - consumer _polling_ the server (asking)
+    - _pushing_ the message to the consumers
+
+  - how to deliver: Subscriber (publication)
+    - network address (know where its going)
+    - protocol (how we deliver) - endpoint
+  - listening: Consumer (subscribers)
+    - queues can have listeners
+    - listenres trigger message comes in
+    - when triggered across known endpoints
+
+- Persistence
+  - database
+  - why?
+    - fault tolerance : if queue goes down, data persists and can be processed later
+    - tracking and audit
+    - multiple queues should work together
+
+- facilitate asynchronous communicate between discrte services
+  - discrete: indivduality identifiable and addressable entities
+- there can be multiple producers and/or consumers
+  - **multicast**: many known recipients
+    - as opposed to
+      - **unicast**: single recipient
+      - **broadcast**: many unknown recipients
+- The producer and consumer are decoupled in time and space
+  - asynchronous (time)
+  - discrete services (space)
+  - producer does not need to know when or by whom a message will be consumed
+
+
+### Benefits
+- generally the same of microservices
+
+- resiliency
+  - consumer can go down and begin processing when back online
+- scalability
+  - scale up - add more producers or consumers to increase rate
+- visbility
+  - examinging queue can give information
+  - example backup
+
+### Pub-Sub Messaging Model Process
+
+- Broker
+  - has all subs
+  - when event is sent, pass it to all subs and remove it
+- listen for Subscribers
+  - when POST request comes in to add a subscriber,
+  - capture necessary info and add the sub to listen
+- Listen for Publications
+  - HTTP requests on publish endpoint
+  - then loop through sublist and for each
+    - create new HTTP POST request and send, await response for acknowledgement
+      - Recieve acknowledgement
+        - status code 200 success or 500 server failure
+- Listen on unsubscrive endpoint for request
+  - remove that sub from the list
+
+### Point-to-Point Messaging Model
+- producer = sender
+- consumer = reciever
+
+- sender and receivers exchange message through virtual channel (queue)
+- queue
+  - destination to which producer send message 
+  - a source from which receivers consume messages
+
+- each message delivered to be consumed by only ONE receiver
+  - even if multiple receivers may listen on a queue
+
+- messages are ordered (FIFO) - consumed and removed from head

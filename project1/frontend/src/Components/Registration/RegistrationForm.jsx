@@ -29,6 +29,8 @@ function RegistrationForm() {
                 AuthService.login({ username: username, password: password })
                     .then(response => {
                         console.log("login response: ", response);
+                        // redirect to profile page
+                        window.location.href = "/profile";
                     })
                     .catch(error => {
                         console.log("login error: ", error);
