@@ -357,3 +357,4 @@ state.current = 10;
   - even if multiple receivers may listen on a queue
 
 - messages are ordered (FIFO) - consumed and removed from head
+
