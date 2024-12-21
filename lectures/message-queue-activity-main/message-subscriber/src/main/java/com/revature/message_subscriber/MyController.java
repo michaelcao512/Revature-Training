@@ -13,10 +13,5 @@ public class MyController {
         System.out.println(message);
         System.out.println("================================\n");
     }
-
-    @PostMapping("/subscribe")
-    public String subscribe(@RequestBody SubscriptionDto subscription) {
-        
-    }
     
 }

@@ -1,9 +1,11 @@
+import LogoutButton from "./LogoutButton";
+
 function NavBar() {
-    return ( 
-        <div>
-            <h1>NavBar</h1>
-        </div>
-     );
+    return (
+        <>
+            <LogoutButton/>
+        </>
+    );
 }
 
 export default NavBar;

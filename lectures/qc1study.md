@@ -28,8 +28,8 @@ HOW
   - inline: using style attribute within the element; this is preferred for styling a single element
 
   - selector { declaration }
-    - internal css: using styling within the same document inside the <style> tag within the head; ideal for styling multiple elements of similar styles
-    - external css: <link> tag within the head to link to an external style sheet using href attribute to specify the file; ideal for styling the same elements of a similar styling thorugh multiple documents or having a paritcular theme
+    - internal css: using styling within the same document inside the `<style>` tag within the head; ideal for styling multiple elements of similar styles
+    - external css: `<link>` tag within the head to link to an external style sheet using href attribute to specify the file; ideal for styling the same elements of a similar styling thorugh multiple documents or having a paritcular theme
 
 ### Selectors
 
@@ -324,10 +324,10 @@ typescript
 - js library that uses component based architecture
 - component - reusuable units of codes that encapsulate data and behavior
   - modular components that work together with single responisbility
+- not modifying the dom directly - virtual dom synchronizes with actual dom only when necessary -> reconciliation
 - creates a single page application
   - dynamically re-renders pre-laoded content instead of requesting the server for a new page (faking navigation)
-  - not modifying the dom directly - virtual dom synchronizes with actual dom only when necessary -> reconciliation
-  - react router dom
+  - react router dom  
 
 - drawbacks of single page application
   - everything most be initally loaded causing longer intial load time because of prerendering everything (eager loading)

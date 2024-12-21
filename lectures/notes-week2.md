@@ -282,9 +282,11 @@ state.current = 10;
 - Kafka
 - a message queue is a thing that resides in between two entties who want to communicate
 - exposing interface for adding and consuming(reading/removing) messages
+
   - exposing = revealing a way to interact - abstracting and encapsulating - keeping interfaces public while other things private
   - consume = other side utilizes exposed interface (reading) - generlly the message is removed after
   - push vs poll
+
     - consumer _polling_ the server (asking)
     - _pushing_ the message to the consumers
 
@@ -297,6 +299,7 @@ state.current = 10;
     - when triggered across known endpoints
 
 - Persistence
+
   - database
   - why?
     - fault tolerance : if queue goes down, data persists and can be processed later
@@ -315,8 +318,8 @@ state.current = 10;
   - discrete services (space)
   - producer does not need to know when or by whom a message will be consumed
 
-
 ### Benefits
+
 - generally the same of microservices
 
 - resiliency
@@ -345,16 +348,93 @@ state.current = 10;
   - remove that sub from the list
 
 ### Point-to-Point Messaging Model
+
 - producer = sender
 - consumer = reciever
 
 - sender and receivers exchange message through virtual channel (queue)
 - queue
-  - destination to which producer send message 
+
+  - destination to which producer send message
   - a source from which receivers consume messages
 
 - each message delivered to be consumed by only ONE receiver
+
   - even if multiple receivers may listen on a queue
 
 - messages are ordered (FIFO) - consumed and removed from head
+
+### Apache Kafka
+
+- is a message queue
+
+- enable communication between producers/consumers using message-based topics
+- distributed streaming platform
+  - distributed -> copied and spread out - multiple redudant instances
+- usage
+  - publish and subscribe to streams of records
+    - streams meaning you dont need the entire contents of the buffer to start reading it
+  - store streams of records in fault-tolerant durable way
+    - write in non-volatile storage
+  - process streams of records as they occurr
+- Kafka Cluster
+
+  - Kafka runs as a cluster on one or more servers that can span multiple datacenters
+  - cluster stores streams of records in categories called topics
+  - record consits of key, value, time stamp
+
+- Kafka Broker (server)
+  - handles all requests from clients (produce, consume, metadata)
+  - persits and replicates the data within the cluster
+  - can be one or more brokers
+  - manages and coordinating by ZooKeeper (outdated now something else)
+  - notify producer and consumers about presence of new breokers or failure of broker
+- Kafka Topic
+
+  - category/feed name to which records are stored and pbulished
+  - Producer - pushes message to topic
+  - Consumer - pulls message from topic
+
+  - partitions - divdied into number of partition, which contaain immutalbe sequence of records
+  - can have multiple partition logs distributed over the servers in cluster ; each server handles data and requests for a share of the partition
+    - Allows multiple consumer to read from a topic in parallel
+  - replication implemented at partition level - each partition replciated across configuraable number of servers for fault tolerance
+
+- Consumer Group
+
+  - consumer label themselves with consumer group name
+  - each record publisehd to topic is delivered to one consumer instance within each subscribing consuemr group
+  - consumer instances can be in a separate process or on machines
+
+  - used to avoid the case in which multiple redudant consumers processing the same request
+    -> group the consumers by group
+
+- hybrid pub/sub and point-to-point
+
+- spring plugin for Kafka available
+  - KafkaTemplate - template for executing high level operations (sending messages)
+  - KafkaMessageListenerContainer - construct instance w/ supplied configuration properties
+  - @KafkaListner - marks a method to be target of a Kafka message listner on the specified topic
+    - POJO/DTO/etc, available for messages w/ annotation
+
+- Role of ZooKeeper
+  - coordinate its task
+
+###  message-qeuue-activity
+- Subscriber POJO - subscriber data (deliver, address, port)
+- Endpoints
+  - subscribe
+    - request: everything needed to deliver (address, port, endpoint)
+    - response: id to identify subscriber
+    - add subscriber to a list
+  - unsubscribe
+    - request: subscriber id
+    - response: status code (200, 500)
+    - remove subscriber from list
+
+  - publish
+    - request: payload: message to publish
+    - response: status (200, 400 bad request,  500 exception)
+    - loop through subscriber list, for each: deliver message
+
 

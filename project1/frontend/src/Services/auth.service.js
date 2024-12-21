@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-const api_url = "http://localhost:8080/auth";
+const api_url = "auth";
 
 class AuthService {
     login(loginRequest) {
@@ -11,6 +11,8 @@ class AuthService {
             .then(response => {
                 if (response.data.accessToken) {
                     localStorage.setItem("user", JSON.stringify(response.data));
+                    axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.accessToken;
+
                 }
                 console.log("login response: ", response);
                 return response.data;
@@ -21,14 +23,15 @@ class AuthService {
     }
     logout() {
         localStorage.removeItem("user");
+        delete axios.defaults.headers.common['Authorization'];
     }
 
     register(registerRequest) {
         console.log("registration request: ", registerRequest)
         const data = axios.post(api_url + "/register", registerRequest)
             .then(response => {
-            console.log("registration response: ", response);
-            return response.data;
+                console.log("registration response: ", response);
+                return response.data;
             })
             .catch(error => {
                 console.log("registration error: ", error);

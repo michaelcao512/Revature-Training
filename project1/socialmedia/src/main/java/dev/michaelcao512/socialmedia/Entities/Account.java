@@ -60,6 +60,12 @@ public class Account implements UserDetails {
     public void onUpdate() {
         this.dateUpdated = LocalDateTime.now();
     }
+    @Override
+    public String toString() {
+        return "Account [accountId=" + accountId + ", username=" + username + ", email=" + email +  ", dateCreated=" + dateCreated + ", dateUpdated=" + dateUpdated + ", authorities="
+                + authorities  + ", following=" + following + ", followers=" + followers
+                + ", posts=" + posts + "]";
+    }
 
     // ===== Implementing UserDetails Methods =====
     @Override

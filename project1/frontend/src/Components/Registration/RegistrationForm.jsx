@@ -1,7 +1,9 @@
 
 import { Box, Button, FormControl, FormLabel, MenuItem, Select, TextField } from '@mui/material';
-import AuthService from '../../Services/auth.service';
+import authService from '../../Services/auth.service';
+import { useNavigate } from 'react-router-dom';
 function RegistrationForm() {
+    const navigate = useNavigate();
     const handleSubmit = (event) => {
         event.preventDefault();
         
@@ -23,14 +25,13 @@ function RegistrationForm() {
             gender: gender
         };
 
-        AuthService.register(registrationRequest)
+        authService.register(registrationRequest)
             .then(response => {
                 console.log("registration response: ", response);
-                AuthService.login({ username: username, password: password })
+                authService.login({ username: username, password: password })
                     .then(response => {
                         console.log("login response: ", response);
-                        // redirect to profile page
-                        window.location.href = "/profile";
+                        navigate("/profile");
                     })
                     .catch(error => {
                         console.log("login error: ", error);

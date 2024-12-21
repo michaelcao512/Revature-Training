@@ -338,6 +338,10 @@ sayHello2("Cao");
 Passing a function as an argument (higher-order functions).
 a function that executes after something is done
 
+
+- higher ordered component
+  - component that takes a component - usually returning an enhanced component
+
 ```javascript
 function name(parameter1, ..., callback) {
     // ...
@@ -943,7 +947,7 @@ function Hello(props) {
 
 ### State
 
-- variable used by React to render component holding a current state that changes and updates
+- variable used by React  holding a current state that changes and updates
 
 - Current state of data that changes over time
 - in classcomponent, you would use this.setState()

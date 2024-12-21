@@ -74,7 +74,6 @@ public class AccountService implements UserDetailsService {
         newAccount.setUsername(username);
 
         Account savedAccount = accountRepository.save(newAccount);
-        logger.info("saved account");
 
         UserInfo userInfo = new UserInfo();
         userInfo.setAccount(savedAccount);
@@ -86,7 +85,7 @@ public class AccountService implements UserDetailsService {
 
         newAccount.setUserInfo(userInfo);
         accountRepository.save(newAccount);
-
+        logger.info("Account registered: " + newAccount);
         return newAccount;
     }
 

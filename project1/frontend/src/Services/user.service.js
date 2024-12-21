@@ -1,12 +1,12 @@
 import axios from 'axios';
 import authHeader from './auth-header';
 
-const api_url = "http://localhost:8080/api/account";
+const api_url = "api/account";
 
 class UserService {
 
     getAllUsers() {
-        return axios.get(api_url, { headers: authHeader() }).then(response => {
+        return axios.get(api_url).then(response => {
             console.log("response: ", response);
             return response.data;
         }).catch(error => {
@@ -15,7 +15,7 @@ class UserService {
     }
 
     getUserById(id) {
-        return axios.get(api_url + "/" + id, { headers: authHeader() }).then(response => {
+        return axios.get(api_url + "/" + id).then(response => {
             console.log("response: ", response);
             return response.data;
         }).catch(error => {
