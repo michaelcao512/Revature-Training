@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 @RestController
 @RequestMapping("/api/account")
@@ -40,7 +42,7 @@ public class AccountController {
     }
 
     /**
-     * TODO
+     * 
      * Updates the account information associated with the given account id.
      *
      * The object in the request body should contain the fields to be updated.
@@ -58,5 +60,27 @@ public class AccountController {
     // accountDetails);
     // return ResponseEntity.ok(updatedAccount);
     // }
+
+    @GetMapping("/getAccountOfComment/{commentId}")
+    public ResponseEntity<Account> getAccountOfComment(@PathVariable Long commentId) {
+        Account account = accountService.getAccountOfComment(commentId);
+        return ResponseEntity.ok(account);
+    }
+
+    @GetMapping("/getAccountOfPost/{postId}")
+    public ResponseEntity<Account> getAccountByPostId(@PathVariable Long postId) {
+        return ResponseEntity.ok(accountService.getAccountOfPost(postId));
+    }
+
+    @GetMapping("/getFollowing/{accountId}")
+    public ResponseEntity<List<Account>> getMethodName(@PathVariable Long accountId) {
+        return ResponseEntity.ok(accountService.getFollowing(accountId));
+    }
+
+    @GetMapping("/getFollowers/{accountId}")
+    public ResponseEntity<List<Account>> getFollowers(@PathVariable Long accountId) {
+        return ResponseEntity.ok(accountService.getFollowers(accountId));
+    }
+    
 
 }

@@ -1,5 +1,5 @@
 
-import { Box, Button, FormControl, FormLabel, MenuItem, Select, TextField } from '@mui/material';
+import { Box, Button, FormControl, FormLabel, TextField } from '@mui/material';
 import authService from '../../Services/auth.service';
 import { useNavigate } from 'react-router-dom';
 function LoginForm() {
@@ -21,7 +21,7 @@ function LoginForm() {
         authService.login(loginRequest)
             .then(response => {
                 console.log("login response: ", response);
-                        navigate("/profile");
+                        navigate(`/profile/${response.id}`);
             })
             .catch(error => {
                 console.log("login error: ", error);

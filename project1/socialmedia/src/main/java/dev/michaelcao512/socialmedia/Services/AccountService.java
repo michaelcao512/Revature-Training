@@ -19,10 +19,11 @@ import dev.michaelcao512.socialmedia.Exceptions.InvalidCredentialsException;
 import dev.michaelcao512.socialmedia.Exceptions.UsernameAlreadyExistsException;
 import dev.michaelcao512.socialmedia.Repositories.AccountRepository;
 import dev.michaelcao512.socialmedia.Repositories.UserInfoRepository;
-import dev.michaelcao512.socialmedia.dto.RegistrationRequest;
+import dev.michaelcao512.socialmedia.dto.Requests.RegistrationRequest;
 
 @Service
 public class AccountService implements UserDetailsService {
+    Logger logger = LoggerFactory.getLogger(AccountService.class);
     private final AccountRepository accountRepository;
     private final UserInfoRepository userInfoRepository;
     private final ApplicationContext applicationContext;
@@ -98,7 +99,6 @@ public class AccountService implements UserDetailsService {
      * @throws IllegalArgumentException    If the account is null.
      */
     public Account loginAccount(Account account) {
-        String email = account.getEmail();
         String password = account.getPassword();
         String username = account.getUsername();
         // checking for non null required fields
@@ -150,5 +150,33 @@ public class AccountService implements UserDetailsService {
         return account.get();
 
     }
+
+    public Account getAccountOfComment(Long commentId) {
+        Optional<Account> account = accountRepository.findByCommentsCommentId(commentId);
+        if (account.isEmpty()) {
+            throw new IllegalArgumentException("Account does not exist");
+        }
+        return account.get();
+    }
+
+    public Account getAccountOfPost(Long postId) {
+        Optional<Account> account = accountRepository.findAccountOfPost(postId);
+        if (account.isEmpty()) {
+            throw new IllegalArgumentException("Account doesn't exist");
+        }
+        return account.get();
+
+    }
+
+    public List<Account> getFollowing(Long accountId) {
+        List<Account> following = accountRepository.findFollowing(accountId);
+        return following;
+    }
+
+    public List<Account> getFollowers(Long accountId) {
+        List<Account> followers = accountRepository.findFollowers(accountId);
+        return followers;
+    }
+
 
 }

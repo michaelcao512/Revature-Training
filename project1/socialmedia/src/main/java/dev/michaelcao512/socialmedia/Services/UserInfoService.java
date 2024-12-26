@@ -29,11 +29,23 @@ public class UserInfoService {
         if (userInfo.getGender() != null && !userInfo.getGender().isEmpty()) {
             existingUserInfo.setGender(userInfo.getGender());
         }
+
+        if (userInfo.getBiography() != null && !userInfo.getBiography().isEmpty()) {
+            existingUserInfo.setBiography(userInfo.getBiography());
+        }
         userInfoRepository.save(existingUserInfo);
         return existingUserInfo;
     }
 
-    public UserInfo getUserInfo(Long accountId) {
+    public UserInfo getUserInfo(Long userInfoId) {
+        Optional<UserInfo> userInfo = userInfoRepository.findById(userInfoId);
+        if (userInfo.isEmpty()) {
+            throw new IllegalArgumentException("User info not found");
+        }
+        return userInfo.get();
+    }
+
+    public UserInfo getUserInfoByAccountId(Long accountId) {
         Optional<UserInfo> userInfo = userInfoRepository.findByAccountId(accountId);
         if (userInfo.isEmpty()) {
             throw new IllegalArgumentException("User info not found");

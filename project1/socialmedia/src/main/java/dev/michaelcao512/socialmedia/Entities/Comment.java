@@ -2,6 +2,8 @@ package dev.michaelcao512.socialmedia.Entities;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,12 +19,16 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentId;
 
+
     @ManyToOne
     @JoinColumn(name = "accountId", nullable = false)
+    @JsonBackReference (value = "account-comments")
     private Account account;
+
 
     @ManyToOne
     @JoinColumn(name = "postId", nullable = false)
+    @JsonBackReference (value = "post-comments")
     private Post post;
 
     private String content;

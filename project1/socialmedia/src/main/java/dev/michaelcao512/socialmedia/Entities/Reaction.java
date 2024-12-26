@@ -1,5 +1,7 @@
 package dev.michaelcao512.socialmedia.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -18,11 +20,13 @@ public class Reaction {
     private Long reactionId;
 
     @ManyToOne
-    @JoinColumn(name = "accountId")
+    @JoinColumn(name = "accountId", nullable = false)
+    @JsonBackReference(value = "account-reactions")
     private Account account;
 
     @ManyToOne
-    @JoinColumn(name = "postId")
+    @JoinColumn(name = "postId", nullable = false)
+    @JsonBackReference(value = "post-reactions")
     private Post post;
 
     @Enumerated(EnumType.STRING)
@@ -30,5 +34,14 @@ public class Reaction {
 
     public enum ReactionType {
         LIKE, DISLIKE
+    }
+
+    public String toString() {
+        return "Reaction{" +
+                "reactionId=" + reactionId +
+                ", account=" + account +
+                ", post=" + post +
+                ", reactionType=" + reactionType +
+                '}';
     }
 }

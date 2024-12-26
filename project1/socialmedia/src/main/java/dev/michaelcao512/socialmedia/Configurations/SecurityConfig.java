@@ -4,8 +4,6 @@ package dev.michaelcao512.socialmedia.Configurations;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -19,17 +17,14 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import dev.michaelcao512.socialmedia.Services.AccountService;
 
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true)
 @CrossOrigin
 public class SecurityConfig {
-    private AccountService accountService;
     private AuthEntryPointJwt unauthorizedHandler;
 
-    public SecurityConfig(AccountService accountService, AuthEntryPointJwt unauthorizedHandler) {
-        this.accountService = accountService;
+    public SecurityConfig(AuthEntryPointJwt unauthorizedHandler) {
         this.unauthorizedHandler = unauthorizedHandler;
     }
 
@@ -41,8 +36,8 @@ public class SecurityConfig {
                 registry
                         .addMapping("/**")
                         .allowedMethods("*")
-                        .allowedHeaders("*");
-
+                        .allowedHeaders("*")
+                        .allowedOrigins("*");
             }
         };
     }
@@ -71,8 +66,9 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
-                        .anyRequest().authenticated());
-        // .anyRequest().permitAll());
+                        // .anyRequest().authenticated()
+                        .anyRequest().permitAll())
+        ;
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 

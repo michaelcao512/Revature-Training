@@ -6,7 +6,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PreUpdate;
@@ -42,29 +41,45 @@ public class Account implements UserDetails {
     @Column()
     private Collection<? extends GrantedAuthority> authorities;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "userInfoId")
-    @JsonManagedReference
+    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "userinfo")
     private UserInfo userInfo;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval =
+    true)
+    @JsonManagedReference(value = "following")
     private List<Friendship> following;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval =
+    true)
+    @JsonManagedReference(value = "followers")
     private List<Friendship> followers;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference (value = "account-posts")
     private List<Post> posts;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference (value = "account-comments")
+    private List<Comment> comments;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference (value = "account-reactions")
+    private List<Reaction> reactions;
 
     @PreUpdate
     public void onUpdate() {
         this.dateUpdated = LocalDateTime.now();
     }
+
     @Override
     public String toString() {
-        return "Account [accountId=" + accountId + ", username=" + username + ", email=" + email +  ", dateCreated=" + dateCreated + ", dateUpdated=" + dateUpdated + ", authorities="
-                + authorities  + ", following=" + following + ", followers=" + followers
-                + ", posts=" + posts + "]";
+        return "Account [accountId=" + accountId + ", username=" + username + ", email=" + email + ", dateCreated="
+                + dateCreated + ", dateUpdated=" + dateUpdated + ", authorities="
+                + authorities
+        // + ", following=" + following + ", followers=" + followers
+        // + ", posts=" + posts + "]"
+        ;
     }
 
     // ===== Implementing UserDetails Methods =====
